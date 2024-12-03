@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Input with Squircle Button</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #121212; /* Dark background */
+            color: #e0e0e0; /* Light text */
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            gap: 15px; /* Space between elements */
+            background-color: #1e1e1e; /* Slightly lighter background */
+            padding: 20px;
+            border-radius: 8px; /* Rounded edges for the container */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+        }
+
+        input[type="text"] {
+            width: 250px;
+            padding: 10px;
+            background-color: #333333; /* Dark input background */
+            color: #ffffff; /* Light text */
+            border: 1px solid #555555;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+        }
+
+        .squircle-button {
+			padding: 10px 15px;
+			cursor: pointer;
+			background-color: #444444; /* Dark background for buttons */
+			color: #ffffff; /* Light text color */
+			border: 1px solid #666666; /* Border for visibility */
+			border-radius: 4px;
+        }
+
+        .squircle-button:hover {
+            background-color: #555555; /* Slightly lighter background on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <input type="text" placeholder="Enter IMAG key here">
+        <button class="squircle-button">Search</button>
+    </div>
+</body>
+</html>
