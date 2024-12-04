@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Text Input with Squircle Button</title>
+    <title>IMAG Show</title>
     <style>
         body, html {
             margin: 0;
@@ -16,15 +16,21 @@
             background-color: #121212; /* Dark background */
             color: #e0e0e0; /* Light text */
         }
-
         .container {
             display: flex;
+            flex-direction: column; /* Align elements vertically */
             align-items: center;
             gap: 15px; /* Space between elements */
             background-color: #1e1e1e; /* Slightly lighter background */
             padding: 20px;
             border-radius: 8px; /* Rounded edges for the container */
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+            margin: 10px; /* Equal margins */
+        }
+
+        .input-container {
+            display: flex; /* Align input and button horizontally */
+            gap: 10px; /* Space between input and button */
         }
 
         input[type="text"] {
@@ -39,26 +45,249 @@
         }
 
         input[type="text"]:focus {
+            border-color: #888888;
         }
 
         .squircle-button {
-			padding: 10px 15px;
-			cursor: pointer;
-			background-color: #444444; /* Dark background for buttons */
-			color: #ffffff; /* Light text color */
-			border: 1px solid #666666; /* Border for visibility */
-			border-radius: 4px;
+            padding: 10px 15px;
+            cursor: pointer;
+            background-color: #444444; /* Dark background for buttons */
+            color: #ffffff; /* Light text color */
+            border: 1px solid #666666; /* Border for visibility */
+            border-radius: 4px;
         }
 
         .squircle-button:hover {
             background-color: #555555; /* Slightly lighter background on hover */
         }
+
+        #image-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #result-image {
+    max-width: 100%; /* Ensures the image doesn't exceed the width */
+    height: auto;
+    border-radius: 8px;
+    display: none;
+    transition: transform 0.3s ease; /* Smooth transition for resizing */
+}
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+
+        #alert-modal {
+            display: none; /* Hidden initially */
+            opacity: 0;    /* Start with transparency */
+            transition: opacity 0.3s ease; /* Smooth transition */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+            justify-content: center;
+            align-items: center;
+        }
+
+        #alert-modal.show {
+            display: flex; /* Show when triggered */
+            animation: fadeIn 0.3s ease forwards; /* Fade-in animation */
+        }
+
+        #alert-modal.hide {
+            animation: fadeOut 0.3s ease forwards; /* Fade-out animation */
+        }
+
+        .modal-content {
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        #alert-message {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        #alert-ok-btn {
+            padding: 10px 15px;
+            background-color: #007bff;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 4px;
+            width: 100%;
+        }
+
+        #alert-ok-btn:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+		#image-container {
+    margin-top: 0; /* Remove margin */
+    text-align: center;
+    display: none; /* Hide by default */
+	position: relative;
+}
+#result-image.enlarged {
+    transform: scale(2); /* Enlarge the image when the class is added */
+	
+}
+		
     </style>
 </head>
 <body>
     <div class="container">
-        <input type="text" placeholder="Enter IMAG key here">
-        <button class="squircle-button">Search</button>
+        <div class="input-container">
+            <input type="text" id="input-field" maxlength="16" placeholder="Enter IMAG key here">
+ <button class="squircle-button" onclick="searchImage()">Search</button>
+        </div>
+
+        <div id="image-container">
+            <img id="result-image" alt="Image Result" onclick="toggleImageSize()">
+            <p id="error-message" style="color: #ff0000; display: none;">No image with matching key could be found.</p>
+        </div>
     </div>
+
+    <!-- Modal for displaying alerts -->
+    <div id="alert-modal">
+        <div class="modal-content">
+            <h3 id="alert-message">Alert message goes here</h3>
+            <button id="alert-ok-btn">OK</button>
+        </div>
+    </div>
+
+    <script>
+        function showAlert(message) {
+            const alertModal = document.getElementById('alert-modal');
+            const alertMessage = document.getElementById('alert-message');
+
+            // Prepare text with line breaks
+            const maxLineLength = 40;
+            let formattedMessage = '';
+            let currentLine = '';
+
+            const words = message.split(' ');
+
+            words.forEach(word => {
+                if (currentLine.length + word.length + 1 > maxLineLength) {
+                    formattedMessage += currentLine + '<br>';
+                    currentLine = word;
+                } else {
+                    currentLine = currentLine ? `${currentLine} ${word}` : word;
+                }
+            });
+
+            if (currentLine) {
+                formattedMessage += currentLine;
+            }
+
+            // Set the message in the modal
+            alertMessage.innerHTML = formattedMessage;
+
+            // Show modal with fade-in animation
+            alertModal.classList.remove('hide');
+            alertModal.classList.add('show');
+            alertModal.style.display = 'flex';
+
+            // Handle "OK" button click to hide the modal with fade-out animation
+            document.getElementById('alert-ok-btn').onclick = () => {
+                alertModal.classList.remove('show');
+                alertModal.classList.add('hide');
+
+                setTimeout(() => {
+                    alertModal.style.display = 'none';
+                }, 300); // Match the fade-out duration
+            };
+        }
+
+        let lastInputText = ''; // Variable to store the last input value
+let lastImageUrl = '';  // Variable to store the last image URL
+
+function searchImage() {
+    const inputField = document.getElementById('input-field');
+    let inputText = inputField.value.trim(); // Get and trim the input text
+
+    // Convert the input to uppercase
+    inputText = inputText.toUpperCase();
+
+    const resultImage = document.getElementById('result-image');
+    const errorMessage = document.getElementById('error-message');
+    const imageContainer = document.getElementById('image-container');
+
+    // Reset previous error message and image visibility
+    errorMessage.style.display = 'none';
+    resultImage.style.display = 'none';
+
+    // Check if input is empty
+    if (inputText === "") {
+        showAlert("Input cannot be empty.");
+    } else if (inputText.length !== 16) { // Check if input length is 16
+        showAlert("Input must be 16 characters.");
+    } else {
+        // Check if the input is the same as the last input
+        if (inputText === lastInputText) {
+            // If it's the same input, just display the last image
+            resultImage.src = lastImageUrl;
+            resultImage.style.display = 'block';
+            imageContainer.style.display = 'block'; // Show container
+        } else {
+            // If it's a new input, create a new image URL
+            const imageUrl = `https://pub-ef4186eafb8b40e79ef539d670c6ec78.r2.dev/${encodeURIComponent(inputText)}.png`;
+
+            resultImage.src = imageUrl;
+            resultImage.onload = function() {
+                resultImage.style.display = 'block'; // Show the image when it loads successfully
+                imageContainer.style.display = 'block'; // Show container
+                // Update the last input and image URL
+                lastInputText = inputText;
+                lastImageUrl = imageUrl;
+            };
+
+            resultImage.onerror = function() {
+                errorMessage.style.display = 'block'; // Display error message if image doesn't load
+                imageContainer.style.display = 'block'; // Show container
+            };
+        }
+    }
+}
+let isImageEnlarged = false; // Variable to track the image size state
+
+function toggleImageSize() {
+    const resultImage = document.getElementById('result-image');
+    const body = document.body;  // Reference to the body element
+
+    // Toggle the 'enlarged' class to apply the scale transformation
+    if (isImageEnlarged) {
+        resultImage.classList.remove('enlarged');
+        isImageEnlarged = false; // Update the state
+    } else {
+        resultImage.classList.add('enlarged');
+        isImageEnlarged = true; // Update the state
+    }
+}
+
+
+
+
+    </script>
 </body>
 </html>
