@@ -1,0 +1,190 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #121212; /* Dark background */
+    color: #e0e0e0; /* Light text */
+    font-family: 'Ubuntu', sans-serif; /* Apply the Ubuntu font */
+}
+button {
+    padding: 10px 15px;
+    cursor: pointer;
+    background-color: #444444; /* Dark background for buttons */
+    color: #ffffff; /* Light text color */
+    border: 1px solid #666666; /* Border for visibility */
+    border-radius: 4px;
+    font-family: 'Ubuntu', sans-serif; /* Apply the Ubuntu font */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+    background: none;
+    border: none;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+    border: 1px solid #333333;
+    transition: width 0.3s ease, height 0.3s ease, padding 0.3s ease, transform 0.3s ease;
+    width: auto;
+    height: auto;
+}
+
+.input-container {
+    display: flex;
+    gap: 10px;
+}
+
+input[type="text"] {
+    width: 250px;
+    padding: 10px;
+    background-color: #333333; /* Dark background for inputs */
+    color: #ffffff; /* Light text color */
+    border: 1px solid #555555; /* Slight border for visibility */
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+input[type="text"]:focus {
+    border-color: #888888;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+.search-btn {
+    padding: 10px 15px;
+    cursor: pointer;
+    background-color: #444444;
+    color: #ffffff;
+}
+
+/* END OF MAIN CONTAINER */
+
+#image-container {
+    margin-top: 20px;
+    text-align: center;
+    transition: transform 0.3s ease;
+    margin-bottom: auto;
+    margin-top: auto;
+}
+
+#result-image {
+max-width: 100%; /* Ensures the image doesn't exceed the width */
+height: auto;
+border-radius: 8px;
+display: none;
+transition: transform 0.3s ease; /* Smooth transition for resizing */
+animation: fadeIn 0.3s ease forwards; /* Fade-in animation */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+#image-container {
+margin-top: 0; /* Remove margin */
+text-align: center;
+display: none; /* Hide by default */
+position: relative;
+animation: fadeIn 0.3s ease forwards; /* Fade-in animation */
+}
+
+#result-image.enlarged {
+transform: scale(2); /* Enlarge the image when the class is added */
+}
+.fa-solid{
+    transform: scale(1.5);
+    text-align: center;
+    padding-right: 1px;
+    padding-left: 1px;
+    margin: 0 ;
+    color: #777777;
+    transition: color 0.3s ease;
+    animation: fadeIn 0.3s ease forwards; /* Fade-in animation */
+    }
+.fa-solid:hover{
+    color: white;
+}
+.search-btn{
+    background: none;
+    border: none;
+    padding: auto;
+    animation: fadeIn 0.3s ease forwards; /* Fade-in animation */
+}
+#error-message{
+    animation: fadeIn 0.3s ease forwards; /* Fade-in animation */
+    margin-bottom: auto;
+}
+#alert-modal {
+    display: none; /* Hidden initially */
+    opacity: 0;    /* Start with transparency */
+    transition: opacity 0.3s ease; /* Smooth transition */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    justify-content: center;
+    align-items: center;
+}
+
+#alert-modal.show {
+    display: flex; /* Show when triggered */
+    animation: fadeIn 0.3s ease forwards; /* Fade-in animation */
+}
+
+#alert-modal.hide {
+    animation: fadeOut 0.3s ease forwards; /* Fade-out animation */
+}
+
+.modal-content {
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    border: 1px solid #333333;
+    font-family: 'Ubuntu', sans-serif; /* Apply the Ubuntu font */
+}
+
+#alert-message {
+    font-size: 18px;
+    margin-bottom: 10px;
+    margin-top: auto;
+}
+
+#alert-ok-btn {
+    padding: 10px 15px;
+    background-color: #007bff;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 100%;
+}
+
+#alert-ok-btn:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}

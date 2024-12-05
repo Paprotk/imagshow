@@ -1,0 +1,52 @@
+#alert-modal {
+    display: none; /* Hidden initially */
+    opacity: 0;    /* Start with transparency */
+    transition: opacity 0.3s ease; /* Smooth transition */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    justify-content: center;
+    align-items: center;
+}
+
+#alert-modal.show {
+    display: flex; /* Show when triggered */
+    animation: fadeIn 0.3s ease forwards; /* Fade-in animation */
+}
+
+#alert-modal.hide {
+    animation: fadeOut 0.3s ease forwards; /* Fade-out animation */
+}
+
+.modal-content {
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    border: 1px solid #333333;
+    font-family: 'Ubuntu', sans-serif; /* Apply the Ubuntu font */
+}
+
+#alert-message {
+    font-size: 18px;
+    margin-bottom: 10px;
+    margin-top: auto;
+}
+
+#alert-ok-btn {
+    padding: 10px 15px;
+    background-color: #007bff;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 100%;
+}
+
+#alert-ok-btn:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
