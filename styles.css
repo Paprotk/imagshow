@@ -154,6 +154,8 @@ transform: scale(2); /* Enlarge the image when the class is added */
 #alert-modal.show {
     display: flex; /* Show when triggered */
     animation: fadeIn 0.3s ease forwards; /* Fade-in animation */
+    backdrop-filter: blur(5px); /* Apply blur effect to the background */
+    -webkit-backdrop-filter: blur(5px); /* Safari support */
 }
 
 #alert-modal.hide {
