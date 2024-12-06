@@ -1,6 +1,9 @@
 let lastInputText = ''; // Variable to store the last input value
 let lastImageUrl = '';  // Variable to store the last image URL
 
+window.onload = function() {
+            document.getElementById("inputText").focus();
+        };
 // Function to search and display image based on input
 function searchImage() {
     const inputField = document.getElementById('input-field');
