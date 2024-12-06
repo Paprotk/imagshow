@@ -51,6 +51,7 @@ input[type="text"] {
     border-radius: 4px;
     outline: none;
     transition: border-color 0.3s ease, transform 0.3s ease;
+    font-family: 'Ubuntu', sans-serif; /* Apply the Ubuntu font */
 }
 
 input[type="text"]:focus {
